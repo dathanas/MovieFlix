@@ -32,13 +32,14 @@ struct MovieListView: View {
                                 let movie = viewModel.movies[index]
                                 MovieRowView(
                                     movie: movie,
-                                    releaseDate: viewModel.formattedReleaseDate(for: movie) ?? "",
+                                    releaseDate: viewModel.formattedReleaseDate(for: movie) ?? "", 
+                                    movieRating: viewModel.scaledRating(for: movie.voteAverage),
                                     favoriteTapped: { movie in
                                         viewModel.toggleFavorite(for: movie)
                                     }
                                 )
                                 .onAppear {
-                                    if index == viewModel.movies.count - 1 {
+                                    if index == viewModel.movies.count - 20 && searchText.isEmpty {
                                         viewModel.loadPopularMovies()
                                     }
                                 }

@@ -82,4 +82,10 @@ class MovieListViewModel: ObservableObject {
         }
         return nil
     }
+    
+    func scaledRating(for rating: Double) -> Int {
+        let scaledRating = Int(round(rating / 2.0))
+        return min(max(scaledRating, 0), 5) // Ensure the scaled rating is within the range [0, 5]
+    }
+
 }

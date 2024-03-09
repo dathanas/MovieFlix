@@ -11,17 +11,24 @@ import Kingfisher
 struct MovieRowView: View {
     let movie: Movie
     let releaseDate: String
+    let movieRating: Int
     var favoriteTapped: (Movie) -> Void
     
     var body: some View {
         ZStack {
-            if let backdropPath = movie.backdropPath {
+            if let backdropPath = movie.backdropPath, !backdropPath.isEmpty {
                 KFImage(URL(string: "https://image.tmdb.org/t/p/w500\(backdropPath)"))
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 200)
                     .cornerRadius(10)
                     .clipped()
+            } else {
+                Color.gray
+                    .frame(height: 200)
+                    .cornerRadius(10)
+                
+                Text("No image available")
             }
             
             VStack(alignment: .leading) {
@@ -30,9 +37,16 @@ struct MovieRowView: View {
                 Text(movie.title)
                     .foregroundColor(.white)
                     .font(.headline)
-                    
                 
                 HStack {
+                    ForEach(0..<5) { index in
+                        if index < movieRating {
+                            Image(uiImage: UIImage(resource: .star))
+                        } else {
+                            Image(uiImage: UIImage(resource: .starEmpty))
+                        }
+                    }
+                    
                     Text(releaseDate)
                         .foregroundColor(.white)
                         .font(.caption)
@@ -55,5 +69,5 @@ struct MovieRowView: View {
 
 
 #Preview {
-    MovieRowView(movie: Movie(id: 1, title: "The Avengers", backdropPath: "/4woSOUD0equAYzvwhWBHIJDCM88.jpg", releaseDate: "2024-01-18", voteAverage: 3.5), releaseDate: "18 Jan 2024", favoriteTapped: { movie in })
+    MovieRowView(movie: Movie(id: 1, title: "The Avengers", backdropPath: "/4woSOUD0equAYzvwhWBHIJDCM88.jpg", releaseDate: "2024-01-18", voteAverage: 3.5), releaseDate: "18 Jan 2024", movieRating: 5, favoriteTapped: { movie in })
 }
