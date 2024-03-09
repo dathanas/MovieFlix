@@ -11,19 +11,23 @@ import Alamofire
 class NetworkClient {
     static let shared = NetworkClient()
     
-    private let apiKey: String = ProcessInfo.processInfo.environment["API_KEY"]!
+    private let apiKey: String
+    
+    private init() {
+        guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+            fatalError("API_KEY not found in environment variables")
+        }
+        self.apiKey = apiKey
+    }
     
     func fetchPopularMovies(page: Int, completion: @escaping (Result<[Movie], Error>) -> Void) {
-        let urlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&page=\(page)"
-        AF.request(urlString)
-            .responseDecodable(of: MoviesResponse.self) { response in
-                switch response.result {
-                    case .success(let moviesResponse):
-                        completion(.success(moviesResponse.results))
-                    case .failure(let error):
-                        completion(.failure(error))
-                }
-            }
+        let urlString = "https://api.themoviedb.org/3/movie/popular"
+        let parameters: [String: Any] = [
+            "api_key": apiKey,
+            "page": page
+        ]
+        
+        performRequest(urlString: urlString, parameters: parameters, completion: completion)
     }
     
     func searchMovies(query: String, completion: @escaping (Result<[Movie], Error>) -> Void) {
@@ -36,16 +40,19 @@ class NetworkClient {
             "page": 1
         ]
         
+        performRequest(urlString: urlString, parameters: parameters, completion: completion)
+    }
+    
+    private func performRequest(urlString: String, parameters: [String: Any], completion: @escaping (Result<[Movie], Error>) -> Void) {
         AF.request(urlString, parameters: parameters)
+            .validate()
             .responseDecodable(of: MoviesResponse.self) { response in
                 switch response.result {
-                    case .success(let movieResults):
-                        completion(.success(movieResults.results))
-                    case .failure(let error):
-                        completion(.failure(error))
+                case .success(let movieResults):
+                    completion(.success(movieResults.results))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
     }
-    
 }
-

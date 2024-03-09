@@ -11,7 +11,7 @@ class MovieListViewModel: ObservableObject {
     @Published var movies: [Movie] = []
     @Published var isLoading = false
     @Published var error: Error? = nil
-    @Published var currentPage = 1
+    private var currentPage = 1
     
     init() {
         loadPopularMovies()
@@ -21,7 +21,10 @@ class MovieListViewModel: ObservableObject {
         isLoading = true
         NetworkClient.shared.fetchPopularMovies(page: currentPage) { [weak self] result in
             guard let self = self else { return }
-            self.isLoading = false
+            //Adding a delay just to see the skeleton 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isLoading = false
+            }
             switch result {
                 case .success(let movies):
                     self.movies.append(contentsOf: movies)
@@ -37,7 +40,10 @@ class MovieListViewModel: ObservableObject {
         if !searchText.isEmpty {
             NetworkClient.shared.searchMovies(query: searchText) { [weak self] result in
                 guard let self = self else { return }
-                self.isLoading = false
+                //Adding a delay just to see the skeleton
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoading = false
+                }
                 switch result {
                     case .success(let movies):
                         self.movies.append(contentsOf: movies)
@@ -53,11 +59,7 @@ class MovieListViewModel: ObservableObject {
     func refreshMovies(completion: @escaping () -> Void) {
         clearList()
         loadPopularMovies()
-        
-        // For demonstration purposes, let's simulate a delay before calling the completion closure
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            completion()
-        }
+        completion()
     }
     
     func clearList() {
@@ -80,5 +82,4 @@ class MovieListViewModel: ObservableObject {
         }
         return nil
     }
-    
 }

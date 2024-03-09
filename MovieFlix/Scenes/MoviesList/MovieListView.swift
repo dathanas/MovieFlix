@@ -43,20 +43,15 @@ struct MovieListView: View {
                                     }
                                 }
                             }
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .padding()
-                            }
                         }
                     }
                 }
+                .redacted(reason: viewModel.isLoading ? .placeholder : [])
             }
             .navigationTitle("MovieFlix")
         }
     }
 }
-
-
 
 #Preview {
     MovieListView()
