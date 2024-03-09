@@ -20,7 +20,6 @@ struct MovieListView: View {
                     performSearch: { searchText in
                         viewModel.searchMovies(searchText: searchText)
                     },
-                    clearList: viewModel.clearList,
                     loadPopularMovies: viewModel.loadPopularMovies
                 )
                 .padding(.horizontal, 16)
