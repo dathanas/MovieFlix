@@ -14,13 +14,25 @@
 		8D6E4C6A2B9BBE4E00D79704 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C692B9BBE4E00D79704 /* Movie.swift */; };
 		8D6E4C6D2B9BC02300D79704 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C6C2B9BC02300D79704 /* NetworkClient.swift */; };
 		8D6E4C702B9BC07000D79704 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8D6E4C6F2B9BC07000D79704 /* Alamofire */; };
-		8D6E4C722B9BC07000D79704 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 8D6E4C712B9BC07000D79704 /* AlamofireDynamic */; };
 		8D6E4C762B9BC60400D79704 /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C752B9BC60400D79704 /* MovieListViewModel.swift */; };
 		8D6E4C782B9BC6F500D79704 /* MovieListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C772B9BC6F500D79704 /* MovieListView.swift */; };
 		8D6E4C7A2B9BC73500D79704 /* MovieRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C792B9BC73500D79704 /* MovieRowView.swift */; };
 		8D6E4C7D2B9BC96700D79704 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8D6E4C7C2B9BC96700D79704 /* Kingfisher */; };
 		8D6E4C7F2B9CA0D300D79704 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C7E2B9CA0D200D79704 /* SearchBarView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8D6E4C812B9D157D00D79704 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8D6E4C572B9BACE700D79704 /* MovieFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,7 +55,6 @@
 			files = (
 				8D6E4C7D2B9BC96700D79704 /* Kingfisher in Frameworks */,
 				8D6E4C702B9BC07000D79704 /* Alamofire in Frameworks */,
-				8D6E4C722B9BC07000D79704 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +144,7 @@
 				8D6E4C532B9BACE700D79704 /* Sources */,
 				8D6E4C542B9BACE700D79704 /* Frameworks */,
 				8D6E4C552B9BACE700D79704 /* Resources */,
+				8D6E4C812B9D157D00D79704 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -141,7 +153,6 @@
 			name = MovieFlix;
 			packageProductDependencies = (
 				8D6E4C6F2B9BC07000D79704 /* Alamofire */,
-				8D6E4C712B9BC07000D79704 /* AlamofireDynamic */,
 				8D6E4C7C2B9BC96700D79704 /* Kingfisher */,
 			);
 			productName = MovieFlix;
@@ -442,11 +453,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8D6E4C6E2B9BC07000D79704 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		8D6E4C712B9BC07000D79704 /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8D6E4C6E2B9BC07000D79704 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
 		};
 		8D6E4C7C2B9BC96700D79704 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
