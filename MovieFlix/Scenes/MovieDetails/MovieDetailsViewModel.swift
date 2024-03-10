@@ -11,10 +11,12 @@ class MovieDetailsViewModel: ObservableObject {
     @Published var movie: Movie
     @Published var isLoading = false
     @Published var error: Error? = nil
+    @Published var similarMovies: [Movie]?
     
     init(movie: Movie) {
         self.movie = movie
         fetchMovieDetails()
+        fetchSimilarMovies()
     }
     
     var formattedGenres: String {
@@ -33,6 +35,20 @@ class MovieDetailsViewModel: ObservableObject {
             switch result {
                 case .success(let movie):
                     self.movie = movie
+                case .failure(let error):
+                    self.error = error
+            }
+        }
+    }
+    
+    func fetchSimilarMovies() {
+        isLoading = true
+        NetworkClient.shared.fetchSimilarMovies(movieID: movie.id) {[weak self] result in
+            guard let self = self else { return }
+            self.isLoading = false
+            switch result {
+                case .success(let movies):
+                    self.similarMovies = movies
                 case .failure(let error):
                     self.error = error
             }
@@ -61,7 +77,7 @@ class MovieDetailsViewModel: ObservableObject {
     }
     
     func scaledRating() -> Int {
-        let scaledRating = Int(round(movie.voteAverage / 2.0))
+        let scaledRating = Int(round((movie.voteAverage ?? 0) / 2.0))
         return min(max(scaledRating, 0), 5)
     }
     

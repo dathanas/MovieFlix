@@ -18,6 +18,9 @@ struct MovieDetailsView: View {
                     MovieBackdropView(viewModel: viewModel)
                     MovieDetailsContentView(viewModel: viewModel)
                         .padding(.horizontal, 24)
+                    if let similarMovies = viewModel.similarMovies, !similarMovies.isEmpty {
+                        SimilarMoviesCarousel(similarMovies: similarMovies)
+                    }
                 }
                 .redacted(reason: viewModel.isLoading ? .placeholder : [])
             }
@@ -172,5 +175,44 @@ struct ReviewCell: View {
                 .font(.caption)
         }
         .padding(.bottom, 8)
+    }
+}
+
+struct SimilarMoviesCarousel: View {
+    var similarMovies: [Movie] = []
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Similar Movies")
+                .font(.caption)
+                .fontWeight(.bold)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 24)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(similarMovies) { movie in
+                        SimilarMovieCard(movie: movie)
+                            .frame(width: 100)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+    }
+}
+
+struct SimilarMovieCard: View {
+    var movie: Movie
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            KFImage(URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")"))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 180)
+                .frame(width: 100)
+                .cornerRadius(10)
+        }
     }
 }

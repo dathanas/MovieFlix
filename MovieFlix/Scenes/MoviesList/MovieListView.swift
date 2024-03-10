@@ -33,7 +33,7 @@ struct MovieListView: View {
                                     MovieRowView(
                                         movie: movie,
                                         releaseDate: viewModel.formattedReleaseDate(for: movie) ?? "",
-                                        movieRating: viewModel.scaledRating(for: movie.voteAverage),
+                                        movieRating: viewModel.scaledRating(for: movie.voteAverage ?? 0),
                                         favoriteTapped: { movie in
                                             viewModel.toggleFavorite(for: movie)
                                         }

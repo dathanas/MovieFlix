@@ -55,10 +55,30 @@ class NetworkClient {
             .validate()
             .responseDecodable(of: Movie.self) { response in
                 switch response.result {
-                case .success(let movieDetailResponse):
-                    completion(.success(movieDetailResponse))
-                case .failure(let error):
-                    completion(.failure(error))
+                    case .success(let movieDetailResponse):
+                        completion(.success(movieDetailResponse))
+                    case .failure(let error):
+                        completion(.failure(error))
+                }
+            }
+    }
+    
+    func fetchSimilarMovies(movieID: Int, completion: @escaping (Result<[Movie], Error>) -> Void) {
+        let urlString = "https://api.themoviedb.org/3/movie/\(movieID)/similar"
+        let parameters: [String: Any] = [
+            "api_key": apiKey,
+            "language": "en-US",
+            "page": 1
+        ]
+        
+        AF.request(urlString, parameters: parameters)
+            .validate()
+            .responseDecodable(of: MoviesResponse.self) { response in
+                switch response.result {
+                    case .success(let movieResults):
+                        completion(.success(movieResults.results))
+                    case .failure(let error):
+                        completion(.failure(error))
                 }
             }
     }
@@ -68,10 +88,10 @@ class NetworkClient {
             .validate()
             .responseDecodable(of: MoviesResponse.self) { response in
                 switch response.result {
-                case .success(let movieResults):
-                    completion(.success(movieResults.results))
-                case .failure(let error):
-                    completion(.failure(error))
+                    case .success(let movieResults):
+                        completion(.success(movieResults.results))
+                    case .failure(let error):
+                        completion(.failure(error))
                 }
             }
     }

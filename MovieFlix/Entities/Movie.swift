@@ -25,8 +25,9 @@ struct Movie: Identifiable, Decodable {
     let id: Int
     let title: String
     let backdropPath: String?
+    let posterPath: String?
     let releaseDate: String?
-    let voteAverage: Double
+    let voteAverage: Double?
     let runtime: Int?
     let overview: String?
     let homepage: String?
@@ -39,6 +40,7 @@ struct Movie: Identifiable, Decodable {
         case id
         case title
         case backdropPath = "backdrop_path"
+        case posterPath = "poster_path"
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
         case runtime
