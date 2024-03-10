@@ -63,9 +63,9 @@ struct MovieBackdropView: View {
 struct ActivityViewController: UIViewControllerRepresentable {
     
     typealias UIViewControllerType = UIActivityViewController
-
+    
     let activityItems: [Any]
-
+    
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         return activityViewController
@@ -135,7 +135,7 @@ struct MovieDetailsContentView: View {
             Text(viewModel.formattedActors())
                 .font(.caption)
             
-            if let reviews = viewModel.movie.reviews {
+            if let reviews = viewModel.movie.reviews?.results, !reviews.isEmpty {
                 ReviewsView(reviews: reviews)
             }
         }
@@ -143,7 +143,7 @@ struct MovieDetailsContentView: View {
 }
 
 struct ReviewsView: View {
-    let reviews: Reviews
+    let reviews: [Review]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -152,7 +152,7 @@ struct ReviewsView: View {
                 .fontWeight(.bold)
                 .padding(.vertical, 8)
             ForEach(0..<2) { index in
-                ReviewCell(review: reviews.results![index])
+                ReviewCell(review: reviews[index])
             }
         }
     }

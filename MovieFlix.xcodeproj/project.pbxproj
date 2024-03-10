@@ -21,7 +21,6 @@
 		8D6E4C7F2B9CA0D300D79704 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C7E2B9CA0D200D79704 /* SearchBarView.swift */; };
 		8D6E4C862B9D212F00D79704 /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E4C852B9D212F00D79704 /* MovieDetailsViewModel.swift */; };
 		8DC2A9432B9DC46A002B8CBE /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC2A9422B9DC46A002B8CBE /* MovieDetailsView.swift */; };
-		8DC2A9462B9DE257002B8CBE /* MovieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC2A9452B9DE257002B8CBE /* MovieManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,7 +50,6 @@
 		8D6E4C7E2B9CA0D200D79704 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		8D6E4C852B9D212F00D79704 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		8DC2A9422B9DC46A002B8CBE /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
-		8DC2A9452B9DE257002B8CBE /* MovieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +122,6 @@
 		8D6E4C732B9BC5DB00D79704 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				8DC2A9442B9DE243002B8CBE /* Managers */,
 				8D6E4C822B9D210400D79704 /* MovieDetails */,
 				8D6E4C742B9BC5E200D79704 /* MoviesList */,
 			);
@@ -149,14 +146,6 @@
 				8DC2A9422B9DC46A002B8CBE /* MovieDetailsView.swift */,
 			);
 			path = MovieDetails;
-			sourceTree = "<group>";
-		};
-		8DC2A9442B9DE243002B8CBE /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				8DC2A9452B9DE257002B8CBE /* MovieManager.swift */,
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,7 +227,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2A9462B9DE257002B8CBE /* MovieManager.swift in Sources */,
 				8D6E4C862B9D212F00D79704 /* MovieDetailsViewModel.swift in Sources */,
 				8D6E4C5D2B9BACE700D79704 /* ContentView.swift in Sources */,
 				8D6E4C5B2B9BACE700D79704 /* MovieFlixApp.swift in Sources */,
