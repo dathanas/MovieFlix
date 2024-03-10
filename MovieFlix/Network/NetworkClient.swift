@@ -43,6 +43,26 @@ class NetworkClient {
         performRequest(urlString: urlString, parameters: parameters, completion: completion)
     }
     
+    func getMovieDetails(movieID: Int, completion: @escaping (Result<Movie, Error>) -> Void) {
+        let urlString = "https://api.themoviedb.org/3/movie/\(movieID)"
+        let parameters: [String: Any] = [
+            "api_key": apiKey,
+            "language": "en-US",
+            "append_to_response": "credits,reviews"
+        ]
+        
+        AF.request(urlString, parameters: parameters)
+            .validate()
+            .responseDecodable(of: Movie.self) { response in
+                switch response.result {
+                case .success(let movieDetailResponse):
+                    completion(.success(movieDetailResponse))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     private func performRequest(urlString: String, parameters: [String: Any], completion: @escaping (Result<[Movie], Error>) -> Void) {
         AF.request(urlString, parameters: parameters)
             .validate()

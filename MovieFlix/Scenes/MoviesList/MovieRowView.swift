@@ -65,9 +65,3 @@ struct MovieRowView: View {
         .padding(.all, 16)
     }
 }
-
-
-
-#Preview {
-    MovieRowView(movie: Movie(id: 1, title: "The Avengers", backdropPath: "/4woSOUD0equAYzvwhWBHIJDCM88.jpg", releaseDate: "2024-01-18", voteAverage: 3.5), releaseDate: "18 Jan 2024", movieRating: 5, favoriteTapped: { movie in })
-}

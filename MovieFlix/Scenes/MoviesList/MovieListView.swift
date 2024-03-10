@@ -29,14 +29,16 @@ struct MovieListView: View {
                         LazyVStack {
                             ForEach(0..<viewModel.movies.count, id: \.self) { index in
                                 let movie = viewModel.movies[index]
-                                MovieRowView(
-                                    movie: movie,
-                                    releaseDate: viewModel.formattedReleaseDate(for: movie) ?? "", 
-                                    movieRating: viewModel.scaledRating(for: movie.voteAverage),
-                                    favoriteTapped: { movie in
-                                        viewModel.toggleFavorite(for: movie)
-                                    }
-                                )
+                                NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModel(movie: movie))) {
+                                    MovieRowView(
+                                        movie: movie,
+                                        releaseDate: viewModel.formattedReleaseDate(for: movie) ?? "",
+                                        movieRating: viewModel.scaledRating(for: movie.voteAverage),
+                                        favoriteTapped: { movie in
+                                            viewModel.toggleFavorite(for: movie)
+                                        }
+                                    )
+                                }
                                 .onAppear {
                                     if index == viewModel.movies.count - 20 && searchText.isEmpty {
                                         viewModel.loadPopularMovies()
@@ -51,8 +53,4 @@ struct MovieListView: View {
             .navigationTitle("MovieFlix")
         }
     }
-}
-
-#Preview {
-    MovieListView()
 }
