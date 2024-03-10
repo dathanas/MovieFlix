@@ -19,6 +19,7 @@ struct MovieDetailsView: View {
                     MovieDetailsContentView(viewModel: viewModel)
                         .padding(.horizontal, 24)
                 }
+                .redacted(reason: viewModel.isLoading ? .placeholder : [])
             }
         }
     }
@@ -81,21 +82,16 @@ struct MovieDetailsContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.movie.title)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                Text(viewModel.formattedGenres)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            .padding(.top, 24)
-            
             HStack {
-                Text(viewModel.formattedReleaseDate() ?? "")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(.orange)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(viewModel.movie.title)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    Text(viewModel.formattedGenres)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .padding(.top, 24)
                 Spacer()
                 Image(uiImage: viewModel.movie.isFavorite ? UIImage(resource: .heartRed) : UIImage(resource: .heartGray))
                     .onTapGesture {
@@ -103,6 +99,11 @@ struct MovieDetailsContentView: View {
                     }
             }
             .padding(.bottom, 8)
+            
+            Text(viewModel.formattedReleaseDate() ?? "")
+                .font(.caption)
+                .fontWeight(.bold)
+                .foregroundColor(.orange)
             
             HStack {
                 ForEach(0..<5) { index in
