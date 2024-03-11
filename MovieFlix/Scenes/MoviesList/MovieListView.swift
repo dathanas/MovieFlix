@@ -50,6 +50,9 @@ struct MovieListView: View {
                 }
                 .redacted(reason: viewModel.isLoading ? .placeholder : [])
             }
+            .onAppear {
+                viewModel.loadFavoriteMovies()
+            }
             .navigationTitle("MovieFlix")
         }
     }

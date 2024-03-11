@@ -13,6 +13,8 @@ class MovieDetailsViewModel: ObservableObject {
     @Published var error: Error? = nil
     @Published var similarMovies: [Movie]?
     
+    private let favoriteManager = FavoriteManager()
+    
     init(movie: Movie) {
         self.movie = movie
         fetchMovieDetails()
@@ -28,13 +30,11 @@ class MovieDetailsViewModel: ObservableObject {
         isLoading = true
         NetworkClient.shared.getMovieDetails(movieID: movie.id) { [weak self] result in
             guard let self = self else { return }
-            //Adding a delay just to see the skeleton
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.isLoading = false
-            }
+            self.isLoading = false
             switch result {
                 case .success(let movie):
                     self.movie = movie
+                    self.updateIsFavorite()
                 case .failure(let error):
                     self.error = error
             }
@@ -43,7 +43,7 @@ class MovieDetailsViewModel: ObservableObject {
     
     func fetchSimilarMovies() {
         isLoading = true
-        NetworkClient.shared.fetchSimilarMovies(movieID: movie.id) {[weak self] result in
+        NetworkClient.shared.fetchSimilarMovies(movieID: movie.id) { [weak self] result in
             guard let self = self else { return }
             self.isLoading = false
             switch result {
@@ -69,11 +69,11 @@ class MovieDetailsViewModel: ObservableObject {
     
     func favoriteTapped() {
         movie.isFavorite.toggle()
-        if movie.isFavorite {
-            UserDefaults.standard.set(true, forKey: "\(movie.id)")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "\(movie.id)")
-        }
+        favoriteManager.toggleFavorite(movieId: movie.id, in: favoriteManager.loadFavoriteMovies())
+    }
+    
+    func updateIsFavorite() {
+        movie.isFavorite = favoriteManager.isFavorite(movieId: movie.id, in: favoriteManager.loadFavoriteMovies())
     }
     
     func scaledRating() -> Int {

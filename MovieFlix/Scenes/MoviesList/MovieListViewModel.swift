@@ -14,7 +14,7 @@ class MovieListViewModel: ObservableObject {
     @Published var favoriteMovies: [Int] = []
     
     private var currentPage = 1
-    private let favoritesKey = "FavoriteMovies"
+    private let favoriteManager = FavoriteManager()
     
     init() {
         loadFavoriteMovies()
@@ -22,19 +22,15 @@ class MovieListViewModel: ObservableObject {
     }
     
     func loadFavoriteMovies() {
-        if let favoriteMoviesIDs = UserDefaults.standard.array(forKey: favoritesKey) as? [Int] {
-            favoriteMovies = favoriteMoviesIDs
-        }
+        favoriteMovies = favoriteManager.loadFavoriteMovies()
+        updateIsFavorite()
     }
     
     func loadPopularMovies() {
         isLoading = true
         NetworkClient.shared.fetchPopularMovies(page: currentPage) { [weak self] result in
             guard let self = self else { return }
-            //Adding a delay just to see the skeleton
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.isLoading = false
-            }
+            self.isLoading = false
             switch result {
                 case .success(let movies):
                     self.movies.append(contentsOf: movies)
@@ -51,13 +47,10 @@ class MovieListViewModel: ObservableObject {
         if !searchText.isEmpty {
             NetworkClient.shared.searchMovies(query: searchText) { [weak self] result in
                 guard let self = self else { return }
-                //Adding a delay just to see the skeleton
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoading = false
-                }
+                self.isLoading = false
                 switch result {
                     case .success(let movies):
-                        clearList()
+                        self.clearList()
                         self.movies.append(contentsOf: movies)
                         self.updateIsFavorite()
                     case .failure(let error):
@@ -77,27 +70,21 @@ class MovieListViewModel: ObservableObject {
     }
     
     func clearList() {
-        self.currentPage = 1
-        self.movies.removeAll()
+        currentPage = 1
+        movies.removeAll()
     }
     
     func toggleFavorite(for movie: Movie) {
-        if favoriteMovies.contains(movie.id) {
-            favoriteMovies.removeAll(where: { $0 == movie.id })
-        } else {
-            favoriteMovies.append(movie.id)
-        }
-        
-        UserDefaults.standard.set(favoriteMovies, forKey: favoritesKey)
+        favoriteMovies = favoriteManager.toggleFavorite(movieId: movie.id, in: favoriteMovies)
         
         if let index = movies.firstIndex(where: { $0.id == movie.id }) {
-            movies[index].isFavorite = favoriteMovies.contains(movie.id)
+            movies[index].isFavorite = favoriteManager.isFavorite(movieId: movie.id, in: favoriteMovies)
         }
     }
     
     private func updateIsFavorite() {
         for index in movies.indices {
-            movies[index].isFavorite = favoriteMovies.contains(movies[index].id)
+            movies[index].isFavorite = favoriteManager.isFavorite(movieId: movies[index].id, in: favoriteMovies)
         }
     }
     

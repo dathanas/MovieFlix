@@ -11,14 +11,7 @@ import Alamofire
 class NetworkClient {
     static let shared = NetworkClient()
     
-    private let apiKey: String
-    
-    private init() {
-        guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
-            fatalError("API_KEY not found in environment variables")
-        }
-        self.apiKey = apiKey
-    }
+    private let apiKey = "0f22c7b00c57ea967fa189dafd963076"
     
     func fetchPopularMovies(page: Int, completion: @escaping (Result<[Movie], Error>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/popular"
