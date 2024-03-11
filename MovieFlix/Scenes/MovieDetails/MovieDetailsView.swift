@@ -155,7 +155,8 @@ struct ReviewsView: View {
                 .font(.caption)
                 .fontWeight(.bold)
                 .padding(.vertical, 8)
-            ForEach(0..<2) { index in
+            
+            ForEach(0..<min(reviews.count, 2)) { index in
                 ReviewCell(review: reviews[index])
             }
         }

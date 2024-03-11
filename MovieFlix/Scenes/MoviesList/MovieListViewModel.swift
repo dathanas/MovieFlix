@@ -63,12 +63,6 @@ class MovieListViewModel: ObservableObject {
         }
     }
     
-    func refreshMovies(completion: @escaping () -> Void) {
-        clearList()
-        loadPopularMovies()
-        completion()
-    }
-    
     func clearList() {
         currentPage = 1
         movies.removeAll()
@@ -79,12 +73,6 @@ class MovieListViewModel: ObservableObject {
         
         if let index = movies.firstIndex(where: { $0.id == movie.id }) {
             movies[index].isFavorite = favoriteManager.isFavorite(movieId: movie.id, in: favoriteMovies)
-        }
-    }
-    
-    private func updateIsFavorite() {
-        for index in movies.indices {
-            movies[index].isFavorite = favoriteManager.isFavorite(movieId: movies[index].id, in: favoriteMovies)
         }
     }
     
@@ -103,5 +91,11 @@ class MovieListViewModel: ObservableObject {
     func scaledRating(for rating: Double) -> Int {
         let scaledRating = Int(round(rating / 2.0))
         return min(max(scaledRating, 0), 5)
+    }
+    
+    private func updateIsFavorite() {
+        for index in movies.indices {
+            movies[index].isFavorite = favoriteManager.isFavorite(movieId: movies[index].id, in: favoriteMovies)
+        }
     }
 }
